@@ -2,6 +2,8 @@ from flask import Flask, render_template, session, request, redirect, url_for, f
 import sqlite3
 import bcrypt
 from datetime import datetime
+import speech_recognition as sr
+from textblob import TextBlob
 
 datetime_str = "2024-03-10 12:30:45"
 
@@ -12,6 +14,27 @@ app = Flask(__name__)
 app.secret_key = "abc"
 
 session = {}
+
+def identify_sentiment(audio): # audio = name of audio file in string
+
+    recognizer = sr.Recognizer()
+
+    audio_file = audio
+
+    with sr.AudioFile(audio_file) as file:
+        audio_data = recognizer.record(file)
+        try:
+            text = recognizer.recognize_google(audio_data)
+        except sr.UnknownValueError:
+            return "Google Speech Recognition could not understand the audio"
+    blob = TextBlob(text)
+    sentimet_polarity = blob.sentiment.polarity
+    if sentimet_polarity > 0:
+        return "Positive"
+    elif sentimet_polarity < 0:
+        return "Negative"
+    else:
+        return "Neutral"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
