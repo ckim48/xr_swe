@@ -4,6 +4,7 @@ import bcrypt
 from datetime import datetime
 import speech_recognition as sr
 from textblob import TextBlob
+import pandas
 
 datetime_str = "2024-03-10 12:30:45"
 
@@ -13,7 +14,6 @@ print(dt_obj)
 app = Flask(__name__)
 app.secret_key = "abc"
 
-session = {}
 
 def identify_sentiment(audio): # audio = name of audio file in string
 
@@ -38,12 +38,19 @@ def identify_sentiment(audio): # audio = name of audio file in string
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template('index.html')
+    isLogin = False
+    if "username" in session:
+        isLogin = True
+    return render_template('index.html', isLogin = isLogin)
 
 @app.route("/myprofile", methods=["GET", "POST"])
 def myprofile():
     return render_template("myprofile.html")
 
+@app.route("/logout", methods = ["GET"])
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -147,7 +154,12 @@ def delete_user(username):
     connector.close()
     return jsonify({"success":True}), 200
 
+@app.route("/database_main")
+def database_main():
+    data = pandas.read_csv("consulting_data_content_logic.csv")
 
+    gender_distribution = data["gender"].value_counts().to_dict()
+    return render_template("database_main.html", gender_distribution = gender_distribution)
 
 
 

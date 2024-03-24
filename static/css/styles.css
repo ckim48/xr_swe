@@ -1132,3 +1132,7 @@ tbody tr:nth-child(even) {
 .table tbody tr:hover{
     scale:1.02;
 }
+
+.graphmargin{
+    margin-top: 120px;
+}
