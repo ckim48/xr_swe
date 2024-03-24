@@ -75,7 +75,7 @@ def login():
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 cursor.execute(update_command, (current_time, input_username))
                 connector.commit()
-                return redirect(url_for("main"))
+                return redirect(url_for("index"))
         else:
             flash("Invalid")
             # print("input pw does NOT match pw!")
