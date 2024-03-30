@@ -1,0 +1,40 @@
+    {% extends "nav.html" %}
+
+    {% block database2 %}
+    <body>
+        <div class="container">
+            <div class="row graphmargin">
+                <div class="col-md-6">
+                    <canvas id="gender_distribution"></canvas>
+                </div>
+                 <div class="col-md-6">
+
+                </div>
+                 <div class="col-md-6">
+
+                </div>
+                <div class="col-md-6">
+
+                </div>
+            </div>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+var ctx = document.getElementById('gender_distribution').getContext('2d');
+        var genderDistribution = {{gender_distribution | tojson }};
+        var labels = Object.keys(genderDistribution);
+        var data = Object.values(genderDistribution);
+        var genderChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets:[{
+                    data: data
+                }]
+            }
+        });
+
+    </script>
+    </body>
+    {% endblock %}
