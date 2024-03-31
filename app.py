@@ -168,12 +168,26 @@ def database_main():
     # DataFrame
     # Gender distribution
     gender_distribution = data["gender"].value_counts().to_dict()
-    return render_template("database_main.html", gender_distribution=gender_distribution)
+
+    # Type of consulting distribution
+    type_distribution = data["type_of_consulting"].value_counts().to_dict()
+    return render_template("database_main.html", gender_distribution=gender_distribution,type_distribution=type_distribution)
     # gender_distribution = {"Male": 50}
     # Male: 500
     # Female: 490
     # Other: 10
     # {"Male": 500, "Female": 490,..."}
+
+def add_data(username, date, contents, sentiment):
+    connector = sqlite3.connect("hw.db")
+    cursor = connector.cursor()
+    cursor.execute("SELECT MAX(id) from consult")
+    result = cursor.fetchone()
+    new_id = int(result) + 1
+    command = "INSERT INTO consult (username, date, contents, sentiment, id) VALUES (?,?,?,?,?);"
+    cursor.execute(command,(username,date,contents,sentiment, new_id))
+    connector.commit()
+    connector.close()
 
 
 

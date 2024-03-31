@@ -3,12 +3,52 @@
     {% block database2 %}
     <body>
         <div class="container">
+         <div class="table-responsive graphmargin">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Content (Text)</th>
+                        <th scope="col">Sentiment</th>
+                        <th scope="col">Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>Scott</td>
+                        <td>2023-03-12</td>
+                        <td>Hello, this is scott... </td>
+                        <td>20.0</td>
+                        <td>
+                            <button class="btn btn-danger" >Download</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
             <div class="row graphmargin">
                 <div class="col-md-6">
-                    <canvas id="gender_distribution"></canvas>
+                    <div class="card chart-card px-4 py-4 mx-auto">
+                        <div class="card-body">
+                                <h2 class="card-title text-center">Graph Title</h2>
+                                <p class="text-center">Short description</p>
+                                <canvas id="gender_distribution"></canvas>
+                        </div>
+                    </div>
                 </div>
                  <div class="col-md-6">
-
+                      <div class="card chart-card px-4 py-4 mx-auto">
+                        <div class="card-body">
+                                <h2 class="card-title text-center">Graph Title</h2>
+                                <p class="text-center">Short description</p>
+                                <canvas id="type_distribution"></canvas>
+                        </div>
+                    </div>
                 </div>
                  <div class="col-md-6">
 
@@ -32,6 +72,25 @@
                         datasets:[{
                             data: data
                         }]
+                    }
+                });
+
+        var ctx_bar = document.getElementById('type_distribution').getContext('2d');
+                var typeDistribution = {{type_distribution | tojson }};
+                var labels = Object.keys(typeDistribution);
+                var data = Object.values(typeDistribution);
+                var typeChart = new Chart(ctx_bar, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets:[{
+                            data: data
+                        }]
+                    },
+                    options: {
+                          legend: {
+                            display: false,
+                          }
                     }
                 });
     </script>

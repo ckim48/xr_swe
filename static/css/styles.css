@@ -1136,3 +1136,13 @@ tbody tr:nth-child(even) {
 .graphmargin{
     margin-top: 120px;
 }
+.chart-card{
+    width: 80%;
+    height: 600px;
+    background-color: rgba(249, 255, 255, 0.9 );
+    border: 2px solid rgba(79, 210, 255, 1):
+    transition: transform 0.3s ease;
+}
+.chart-card:hover{
+    transform: translateY(-10px);
+}
