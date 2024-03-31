@@ -164,9 +164,12 @@ def delete_user(username):
 @app.route("/database_main")
 def database_main():
     data = pandas.read_csv("consulting_data_content_logic.csv")
+
+    # DataFrame
     # Gender distribution
     gender_distribution = data["gender"].value_counts().to_dict()
     return render_template("database_main.html", gender_distribution=gender_distribution)
+    # gender_distribution = {"Male": 50}
     # Male: 500
     # Female: 490
     # Other: 10
