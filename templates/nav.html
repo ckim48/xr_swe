@@ -42,7 +42,7 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto active" href="{{url_for('index')}}">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
           <li><a class="nav-link scrollto" href="#services">Services</a></li>
           <li><a class="nav-link  scrollto" href="{{url_for('myprofile')}}">My Profile</a></li>
@@ -65,7 +65,7 @@
             </ul>
           </li>
           {% if isLogin == True %}
-            <li><a class="nav-link scrollto" href="{{url_for('login')}}">Logout</a></li>
+            <li><a class="nav-link scrollto" href="{{url_for('logout')}}">Logout</a></li>
           {% else %}
             <li><a class="nav-link scrollto" href="{{url_for('login')}}">Login</a></li>
           {% endif %}

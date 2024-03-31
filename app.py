@@ -45,7 +45,17 @@ def index():
 
 @app.route("/myprofile", methods=["GET", "POST"])
 def myprofile():
-    return render_template("myprofile.html")
+    isLogin = False
+    if "username" in session:
+        isLogin = True
+        conn = sqlite3.connect("hw.db")
+        cursor = conn.cursor()
+        command = "SELECT email, age FROM users_table WHERE username = ?;"
+        cursor.execute(command, (session["username"], ))
+        result = cursor.fetchall()
+        return render_template("myprofile.html", username = session["username"], age = result[0][1], email = result[0][0], isLogin = isLogin)
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/logout", methods = ["GET"])
 def logout():
@@ -128,6 +138,9 @@ def signup():
 
 @app.route("/database1")
 def database1():
+    isLogin = False
+    if "username" in session:
+        isLogin = True
     connector = sqlite3.connect("hw.db")
     cursor = connector.cursor()
     command = "SELECT username, age, email, logindate FROM users_table"
@@ -143,7 +156,7 @@ def database1():
         users_age.append(user[1])
         users_email.append(user[2])
         users_logindate.append(user[3])
-    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate)
+    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate, isLogin = isLogin)
 @app.route('/delete_user/<username>', methods=["POST"])
 def delete_user(username):
     connector = sqlite3.connect('hw.db')
@@ -156,10 +169,13 @@ def delete_user(username):
 
 @app.route("/database_main")
 def database_main():
+    isLogin = False
+    if "username" in session:
+        isLogin = True
     data = pandas.read_csv("consulting_data_content_logic.csv")
 
     gender_distribution = data["gender"].value_counts().to_dict()
-    return render_template("database_main.html", gender_distribution = gender_distribution)
+    return render_template("database_main.html", gender_distribution = gender_distribution, isLogin = isLogin)
 
 
 
