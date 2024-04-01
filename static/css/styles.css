@@ -1146,3 +1146,21 @@ tbody tr:nth-child(even) {
 .chart-card:hover{
     transform: translateY(-10px);
 }
+.edit-data{
+  border: none;
+}
+.navmargin{
+    margin-top: 80px;
+}
+.save-edit{
+  background-color: #4141ff;
+}
+.save-edit:hover{
+  background-color: white;
+  color: #4141ff;
+  border: 1px solid #4141ff;
+}
+
+.border-r{
+  border-radius: 3px;
+}

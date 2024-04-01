@@ -1,7 +1,7 @@
 from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
 import sqlite3
 import bcrypt
-from datetime import datetime
+from datetime import datetime, timedelta
 # import speech_recognition as sr
 from textblob import TextBlob
 import pandas
@@ -142,12 +142,24 @@ def database1():
     users_age = []
     users_email = []
     users_logindate = []
+    loginCounts = []
     for user in users:
         users_username.append(user[0])
         users_age.append(user[1])
         users_email.append(user[2])
         users_logindate.append(user[3])
-    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate)
+    for i in range(30):
+        command = "SELECT COUNT(*) FROM users_table WHERE logindate = ?"
+        d = datetime.now().date() - timedelta(days=i)
+        d = d.strftime("%Y-%m-%d")
+        cursor.execute(command, (d,))
+        loginCounts.append(cursor.fetchall())
+    loginCounts = [count[0] for count in loginCounts]
+    loginCounts = [count[0] for count in loginCounts]
+    print(loginCounts)
+    connector.close()
+    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate, loginCount = loginCounts)
+
 @app.route('/delete_user/<username>', methods=["POST"])
 def delete_user(username):
     connector = sqlite3.connect('hw.db')
