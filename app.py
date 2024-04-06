@@ -1,10 +1,11 @@
 from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
 import sqlite3
 import bcrypt
-from datetime import datetime
-import speech_recognition as sr
+from datetime import datetime, timedelta
+# import speech_recognition as sr
 from textblob import TextBlob
 import pandas
+import speech_recognition as sr
 
 datetime_str = "2024-03-10 12:30:45"
 
@@ -13,6 +14,9 @@ print(dt_obj)
 
 app = Flask(__name__)
 app.secret_key = "abc"
+
+session = {}
+
 
 
 def identify_sentiment(audio): # audio = name of audio file in string
@@ -41,6 +45,7 @@ def index():
     isLogin = False
     if "username" in session:
         isLogin = True
+
     return render_template('index.html', isLogin = isLogin)
 
 @app.route("/myprofile", methods=["GET", "POST"])
@@ -57,7 +62,7 @@ def myprofile():
     else:
         return redirect(url_for("login"))
 
-@app.route("/logout", methods = ["GET"])
+@app.route("/logout", methods=["GET"])
 def logout():
     session.clear()
     return redirect(url_for('index'))
@@ -151,12 +156,28 @@ def database1():
     users_age = []
     users_email = []
     users_logindate = []
+    loginCounts = []
     for user in users:
         users_username.append(user[0])
         users_age.append(user[1])
         users_email.append(user[2])
         users_logindate.append(user[3])
+<<<<<<< HEAD
     return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate, isLogin = isLogin)
+=======
+    for i in range(30):
+        command = "SELECT COUNT(*) FROM users_table WHERE logindate = ?"
+        d = datetime.now().date() - timedelta(days=i)
+        d = d.strftime("%Y-%m-%d")
+        cursor.execute(command, (d,))
+        loginCounts.append(cursor.fetchall())
+    loginCounts = [count[0] for count in loginCounts]
+    loginCounts = [count[0] for count in loginCounts]
+    print(loginCounts)
+    connector.close()
+    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate, loginCount = loginCounts)
+
+>>>>>>> 680ca1285ab6f60b2cc8bd6741c5920526a1354f
 @app.route('/delete_user/<username>', methods=["POST"])
 def delete_user(username):
     connector = sqlite3.connect('hw.db')
@@ -167,6 +188,9 @@ def delete_user(username):
     connector.close()
     return jsonify({"success":True}), 200
 
+
+
+
 @app.route("/database_main")
 def database_main():
     isLogin = False
@@ -174,10 +198,33 @@ def database_main():
         isLogin = True
     data = pandas.read_csv("consulting_data_content_logic.csv")
 
+    # DataFrame
+    # Gender distribution
     gender_distribution = data["gender"].value_counts().to_dict()
+<<<<<<< HEAD
     return render_template("database_main.html", gender_distribution = gender_distribution, isLogin = isLogin)
+=======
+>>>>>>> 680ca1285ab6f60b2cc8bd6741c5920526a1354f
 
+    # Type of consulting distribution
+    type_distribution = data["type_of_consulting"].value_counts().to_dict()
+    return render_template("database_main.html", gender_distribution=gender_distribution,type_distribution=type_distribution)
+    # gender_distribution = {"Male": 50}
+    # Male: 500
+    # Female: 490
+    # Other: 10
+    # {"Male": 500, "Female": 490,..."}
 
+def add_data(username, date, contents, sentiment):
+    connector = sqlite3.connect("hw.db")
+    cursor = connector.cursor()
+    cursor.execute("SELECT MAX(id) from consult")
+    result = cursor.fetchone()
+    new_id = int(result) + 1
+    command = "INSERT INTO consult (username, date, contents, sentiment, id) VALUES (?,?,?,?,?);"
+    cursor.execute(command,(username,date,contents,sentiment, new_id))
+    connector.commit()
+    connector.close()
 
 
 
