@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, request, redirect, url_for, f
 import sqlite3
 import bcrypt
 from datetime import datetime, timedelta
-import speech_recognition as sr
+# import speech_recognition as sr
 from textblob import TextBlob
 import pandas, json
 
@@ -68,7 +68,7 @@ def logout():
 def login():
     connector = sqlite3.connect("hw.db")
     cursor = connector.cursor()
-    connector2 = sqlite3.connect("loginCount.db")
+    connector2 = sqlite3.connect("hw.db")
     cursor2 = connector2.cursor()
     if request.method == "POST":
         input_username = request.form.get("input_username")
@@ -160,7 +160,7 @@ def database1():
         users_age.append(user[1])
         users_email.append(user[2])
         users_logindate.append(user[3])
-    connector2 = sqlite3.connect("loginCount.db")
+    connector2 = sqlite3.connect("hw.db")
     cursor2 = connector2.cursor()
     for i in range(7):
         command2 = "SELECT COUNT(*) FROM loginCounts WHERE logindate = ?"
