@@ -1,98 +1,152 @@
-    {% extends "nav.html" %}
+{% extends "nav.html" %}
 
-    {% block database2 %}
-    <body>
-        <div class="container">
-         <div class="table-responsive graphmargin">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Content (Text)</th>
-                        <th scope="col">Sentiment</th>
-                        <th scope="col">Download</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>0</td>
-                        <td>Scott</td>
-                        <td>2023-03-12</td>
-                        <td>Hello, this is scott... </td>
-                        <td>20.0</td>
-                        <td>
-                            <button class="btn btn-danger" >Download</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+{% block database2 %}
+<body>
+
+    <div class="container">
+     <div class="table-responsive graphmargin">
+        <table class="table">
+            <thead>
+                <tr> <!-- <tr> meaning? -->
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Content (Text)</th>
+                    <th scope="col">Sentiment</th>
+                    <th scope="col">Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0</td>
+                    <td>Scott</td>
+                    <td>2023-03-12</td>
+                    <td>Hello, this is scott... </td>
+                    <td>20.0</td>
+                    <td>
+                        <button class="btn btn-danger" >Download</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
-            <div class="row graphmargin">
-                <div class="col-md-6">
-                    <div class="card chart-card px-4 py-4 mx-auto">
-                        <div class="card-body">
-                                <h2 class="card-title text-center">Graph Title</h2>
-                                <p class="text-center">Short description</p>
-                                <canvas id="gender_distribution"></canvas>
-                        </div>
+        <div class="row graphmargin">
+            <div class="col-md-6">
+                <div class="card chart-card px-4 py-4 mx-auto">
+                    <div class="card-body">
+                            <h2 class="card-title text-center">Graph Title</h2>
+                            <p class="text-center">Short description</p>
+                            <canvas id="gender_distribution"></canvas>
                     </div>
-                </div>
-                 <div class="col-md-6">
-                      <div class="card chart-card px-4 py-4 mx-auto">
-                        <div class="card-body">
-                                <h2 class="card-title text-center">Graph Title</h2>
-                                <p class="text-center">Short description</p>
-                                <canvas id="type_distribution"></canvas>
-                        </div>
-                    </div>
-                </div>
-                 <div class="col-md-6">
-
-                </div>
-                <div class="col-md-6">
-
                 </div>
             </div>
+
+            <div class="col-md-6">
+                  <div class="card chart-card px-4 py-4 mx-auto">
+                    <div class="card-body">
+                            <h2 class="card-title text-center">Graph Title</h2>
+                            <p class="text-center">Short description</p>
+                            <canvas id="type_distribution"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card chart-card px-4 py-4 mx-auto">
+                    <div class="card-body">
+                            <h2 class="card-title text-center">Graph Title</h2>
+                            <p class="text-center">Short description</p>
+                            <canvas id="sentiment_dist_canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+            </div>
         </div>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var ctx = document.getElementById('gender_distribution').getContext('2d');
-                var genderDistribution = {{gender_distribution | tojson }};
-                var labels = Object.keys(genderDistribution);
-                var data = Object.values(genderDistribution);
-                var genderChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: labels,
-                        datasets:[{
-                            data: data
-                        }]
-                    }
-                });
 
-        var ctx_bar = document.getElementById('type_distribution').getContext('2d');
-                var typeDistribution = {{type_distribution | tojson }};
-                var labels = Object.keys(typeDistribution);
-                var data = Object.values(typeDistribution);
-                var typeChart = new Chart(ctx_bar, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets:[{
-                            data: data
-                        }]
-                    },
-                    options: {
-                          legend: {
-                            display: false,
-                          }
-                    }
-                });
-    </script>
-    </body>
-    {% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('gender_distribution').getContext('2d');
+    //ctx meaning? Context?
+    //access data CSV, access gender distribution column
+            var genderDistribution = {{ gender_distribution | tojson }};
+            var labels = Object.keys(genderDistribution);
+            var data = Object.values(genderDistribution);
+            var genderChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets:[{
+                        data: data
+                    }]
+                }
+            });
+
+    var ctx_bar = document.getElementById('type_distribution').getContext('2d');
+            var typeDistribution = {{type_distribution | tojson }};
+            var labels = Object.keys(typeDistribution);
+            var data = Object.values(typeDistribution);
+            var typeChart = new Chart(ctx_bar, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets:[{
+                        data: data
+                    }]
+                },
+                options: {
+                      legend: {
+                        display: false,
+                      }
+                }
+            });
+
+    var ctx_sentiment = document.getElementById('sentiment_dist_canvas').getContext("2d");
+            
+            var sentimentDistribution = {{sentiment_distribution | tojson}};
+            console.log(sentimentDistribution);
+            var labels = ["Negative", "Neutral", "Positive"];
+            var raw_data = sentimentDistribution;
+            console.log("init print raw_data");
+            console.log(raw_data);
+            //console.log(raw_data.length);
+            var data = [0, 0, 0];
+
+            for (const i in raw_data){
+                console.log(i);
+                console.log(raw_data[i]);
+                if (i <= 0.3) {
+                    data[0] += raw_data[i];
+                }
+                else if (0.3 < i && i <= 0.7){
+                    data[1] += raw_data[i];
+                }
+                else if (0.7 < i){
+                    data[2] += raw_data[i];
+                }
+            }
+
+            var typeChart = new Chart(ctx_sentiment, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets:[{
+                        data: data
+                    }]
+                },
+                options: {
+                      legend: {
+                        display: false,
+                      }
+                }
+            });
+
+</script>
+
+</body>
+{% endblock %}
