@@ -203,8 +203,18 @@ def delete_user(username):
 def database_main():
     data = pandas.read_csv("consulting_data_content_logic.csv")
 
+    # DataFrame
+    # Gender distribution
     gender_distribution = data["gender"].value_counts().to_dict()
-    return render_template("database_main.html", gender_distribution = gender_distribution)
+    type_distribution = data["type_of_consulting"].value_counts().to_dict()
+    sentiment_distribution = data["sentiment"].value_counts().to_dict()
+    print(sentiment_distribution)
+    return render_template("database_main.html", gender_distribution=gender_distribution, type_distribution = type_distribution, sentiment_distribution = sentiment_distribution)
+    # gender_distribution = {"Male": 50}
+    # Male: 500
+    # Female: 490
+    # Other: 10
+    # {"Male": 500, "Female": 490,..."}
 
 
 
