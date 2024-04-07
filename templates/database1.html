@@ -120,9 +120,13 @@
                     // Update the row data
                     window.rowToEdit.cells[2].textContent = ageInput;
                     window.rowToEdit.cells[3].textContent = emailInput;
-                var editModalEl = document.getElementById('editUserModal');
-                var editModal = bootstrap.Modal.getInstance(editModalEl);
+                const editModalEl = document.getElementById('editUserModal');
+                const editModal = bootstrap.Modal.getInstance(editModalEl);
                 editModal.hide();
+                var backdrops = document.querySelectorAll('.modal-backdrop');
+                backdrops.forEach(function(backdrop) {
+                    backdrop.remove();
+                });
                 editForm.reset();
 }
             })
@@ -133,32 +137,48 @@
         });
     });
     var ctx = document.getElementById('barChart').getContext('2d');
-    var loginData = {{logindates | tojson | safe}};
     var loginCount = {{loginCount | tojson | safe}}
-    console.log(loginCount);
+    var loginPeriod = {{loginPeriod | tojson | safe}}
+    console.log(loginPeriod);
     var myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
-        labels: [3.05, 3.24, 3.23], //python should send a list of date week before today
+        labels: loginPeriod, //python should send a list of date week before today
         datasets: [{
             label: '# of Users Logged in',
-            data: [10, 11, 12], //python should send a list of counts
+            data: loginCount, //python should send a list of counts
             backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
+                'rgb(72, 202, 228)',
             ],
             borderColor: [
-                'rgba(54, 162, 235, 1)',
+                'rgb(72, 202, 228)',
             ],
-            borderWidth: 1
+            borderWidth: 4
         }]
     },
     options: {
         scales: {
-            yAxes: [{
+            y: {
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    color: 'white',
+                },
+                grid: {
+                    color: 'white',
                 }
-            }]
+            },
+            x:{
+                ticks:{
+                    color: 'white',
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white'
+                }
+            }
         }
     }
 });
