@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, request, redirect, url_for, f
 import sqlite3
 import bcrypt
 from datetime import datetime, timedelta
-# import speech_recognition as sr
+import speech_recognition as sr
 from textblob import TextBlob
 import pandas, json
 
@@ -45,7 +45,19 @@ def index():
 
 @app.route("/myprofile", methods=["GET", "POST"])
 def myprofile():
-    return render_template("myprofile.html")
+    isLogin = False
+    if "username" in session:
+        isLogin = True
+        conn = sqlite3.connect("hw.db")
+        cursor = conn.cursor()
+        command = "SELECT email, age FROM users_table WHERE username = ?;"
+        cursor.execute(command, (session["username"],))
+        result = cursor.fetchall()
+        return render_template("myprofile.html", username=session["username"], age=result[0][1], email=result[0][0], isLogin=isLogin)
+    if "username" in session:
+        return render_template("myprofile.html")
+    else:
+        return render_template("login.html")
 
 @app.route("/logout", methods = ["GET"])
 def logout():
@@ -128,6 +140,9 @@ def signup():
 
 @app.route("/database1")
 def database1():
+    isLogin = False
+    if "username" in session:
+        isLogin = True
     connector = sqlite3.connect("hw.db")
     cursor = connector.cursor()
     command = "SELECT username, age, email, logindate FROM users_table"
