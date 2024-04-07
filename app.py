@@ -4,7 +4,7 @@ import bcrypt
 from datetime import datetime, timedelta
 # import speech_recognition as sr
 from textblob import TextBlob
-import pandas
+import pandas, json
 
 datetime_str = "2024-03-10 12:30:45"
 
@@ -13,9 +13,6 @@ print(dt_obj)
 
 app = Flask(__name__)
 app.secret_key = "abc"
-
-session = {}
-
 
 
 def identify_sentiment(audio): # audio = name of audio file in string
@@ -44,14 +41,13 @@ def index():
     isLogin = False
     if "username" in session:
         isLogin = True
-
     return render_template('index.html', isLogin = isLogin)
 
 @app.route("/myprofile", methods=["GET", "POST"])
 def myprofile():
     return render_template("myprofile.html")
 
-@app.route("/logout", methods=["GET"])
+@app.route("/logout", methods = ["GET"])
 def logout():
     session.clear()
     return redirect(url_for('index'))
@@ -60,6 +56,8 @@ def logout():
 def login():
     connector = sqlite3.connect("hw.db")
     cursor = connector.cursor()
+    connector2 = sqlite3.connect("loginCount.db")
+    cursor2 = connector2.cursor()
     if request.method == "POST":
         input_username = request.form.get("input_username")
         input_password = request.form.get("input_password")
@@ -72,20 +70,18 @@ def login():
 
         # rint(db_pw_tuple)
         for db_password in db_pw_tuple:
-            # print(db_password[0])
-            # print(input_password)
-            # if input_password == db_password[0]:
-
-            # print(encoded_password)
-            # print(db_password)
-
             if bcrypt.checkpw(encoded_password, db_password[0]) == True:
                 # print("input pw matches db pw!")
                 session["username"] = input_username
                 update_command = "UPDATE users_table SET logindate = ? WHERE username = ?"
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                current_time = datetime.now().strftime("%Y-%m-%d")
                 cursor.execute(update_command, (current_time, input_username))
                 connector.commit()
+                login_command = "INSERT INTO loginCounts (username, logindate) VALUES (?, ?)"
+                cursor2.execute(login_command, (input_username, current_time))
+                connector2.commit()
+                connector.close()
+                connector2.close()
                 return redirect(url_for("index"))
         else:
             flash("Invalid")
@@ -143,22 +139,40 @@ def database1():
     users_email = []
     users_logindate = []
     loginCounts = []
+    loginPeriod = []
     for user in users:
         users_username.append(user[0])
         users_age.append(user[1])
         users_email.append(user[2])
         users_logindate.append(user[3])
-    for i in range(30):
-        command = "SELECT COUNT(*) FROM users_table WHERE logindate = ?"
+    connector2 = sqlite3.connect("loginCount.db")
+    cursor2 = connector2.cursor()
+    for i in range(7):
+        command2 = "SELECT COUNT(*) FROM loginCounts WHERE logindate = ?"
         d = datetime.now().date() - timedelta(days=i)
         d = d.strftime("%Y-%m-%d")
-        cursor.execute(command, (d,))
-        loginCounts.append(cursor.fetchall())
-    loginCounts = [count[0] for count in loginCounts]
-    loginCounts = [count[0] for count in loginCounts]
-    print(loginCounts)
+        cursor2.execute(command2, (d,))
+        loginCounts.append(cursor2.fetchall())
+        loginPeriod.append(d)
+    counts = [count[0] for count in loginCounts]
+    counts = [count[0] for count in counts]
+    print(loginPeriod)
     connector.close()
-    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate, loginCount = loginCounts)
+    connector2.close()
+    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate, loginCount = counts, loginPeriod = loginPeriod)
+
+@app.route('/update_database/<username>', methods=['POST'])
+def update_database(username):
+    print("Called")
+    connector = sqlite3.connect("hw.db")
+    cursor = connector.cursor()
+    age = request.form.get("age")
+    email = request.form.get("email")
+    command = "UPDATE users_table SET age = ?, email = ? WHERE username = ?"
+    cursor.execute(command, (age, email, username))
+    connector.commit()
+    connector.close()
+    return jsonify({"success": True}), 200
 
 @app.route('/delete_user/<username>', methods=["POST"])
 def delete_user(username):
@@ -170,36 +184,14 @@ def delete_user(username):
     connector.close()
     return jsonify({"success":True}), 200
 
-
-
-
 @app.route("/database_main")
 def database_main():
     data = pandas.read_csv("consulting_data_content_logic.csv")
 
-    # DataFrame
-    # Gender distribution
     gender_distribution = data["gender"].value_counts().to_dict()
+    return render_template("database_main.html", gender_distribution = gender_distribution)
 
-    # Type of consulting distribution
-    type_distribution = data["type_of_consulting"].value_counts().to_dict()
-    return render_template("database_main.html", gender_distribution=gender_distribution,type_distribution=type_distribution)
-    # gender_distribution = {"Male": 50}
-    # Male: 500
-    # Female: 490
-    # Other: 10
-    # {"Male": 500, "Female": 490,..."}
 
-def add_data(username, date, contents, sentiment):
-    connector = sqlite3.connect("hw.db")
-    cursor = connector.cursor()
-    cursor.execute("SELECT MAX(id) from consult")
-    result = cursor.fetchone()
-    new_id = int(result) + 1
-    command = "INSERT INTO consult (username, date, contents, sentiment, id) VALUES (?,?,?,?,?);"
-    cursor.execute(command,(username,date,contents,sentiment, new_id))
-    connector.commit()
-    connector.close()
 
 
 
