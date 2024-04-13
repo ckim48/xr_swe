@@ -71,40 +71,43 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('gender_distribution').getContext('2d');
-    //ctx meaning? Context?
-    //access data CSV, access gender distribution column
-            var genderDistribution = {{ gender_distribution | tojson }};
-            var labels = Object.keys(genderDistribution);
-            var data = Object.values(genderDistribution);
-            var genderChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
+
+    function drawChart(chartId, chartType, chartData, chartOptions = {}){
+        var ctx = document.getElementById(chartId).getContext('2d');
+        new Chart(ctx, {
+            type: chartType,
+            data: chartData,
+            options: chartOptions
+        });
+    }
+
+    var genderDistribution = {{ gender_distribution | tojson }};
+    var labels = Object.keys(genderDistribution);
+    var data = Object.values(genderDistribution);
+    drawChart('gender_distribution', 'pie', {
                     labels: labels,
                     datasets:[{
                         data: data
                     }]
                 }
-            });
+    );
 
-    var ctx_bar = document.getElementById('type_distribution').getContext('2d');
-            var typeDistribution = {{type_distribution | tojson }};
-            var labels = Object.keys(typeDistribution);
-            var data = Object.values(typeDistribution);
-            var typeChart = new Chart(ctx_bar, {
-                type: 'bar',
-                data: {
+    var typeDistribution = {{type_distribution | tojson }};
+    var labels = Object.keys(typeDistribution);
+    var data = Object.values(typeDistribution);
+    drawChart('type_distribution', 'bar',{
                     labels: labels,
                     datasets:[{
                         data: data
                     }]
-                },
-                options: {
+                }, {
                       legend: {
                         display: false,
                       }
                 }
-            });
+    );
+
+
 
     var ctx_sentiment = document.getElementById('sentiment_dist_canvas').getContext("2d");
             

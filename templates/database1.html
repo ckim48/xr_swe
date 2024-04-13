@@ -15,6 +15,9 @@
                         <th scope="col" class="merriweather-bold">Username</th>
                         <th scope="col" class="merriweather-bold">Age</th>
                         <th scope="col" class="merriweather-bold">Email</th>
+                        <th scope="col" class="merriweather-bold">Country</th>
+                        <th scope="col" class="merriweather-bold">MBTI</th>
+                        <th scope="col" class="merriweather-bold">Description</th>
                         <th scope="col" class="merriweather-bold">Last Logged in</th>
                     </tr>
                 </thead>
@@ -25,6 +28,9 @@
                         <td class="merriweather"> {{usernames[user]}}</td>
                         <td class="merriweather"> {{ages[user]}}</td>
                         <td class="merriweather"> {{emails[user]}}</td>
+                        <td class="merriweather"> {{country[user]}}</td>
+                        <td class="merriweather"> {{mbti[user]}}</td>
+                        <td class="merriweather"> {{description[user]}}</td>
                         <td class="merriweather"> {{logindates[user]}}</td>
                         <td>
                             <button class="btn btn-primary edit-data" data-id="{{usernames[user]}}" data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</button>
