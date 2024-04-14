@@ -50,10 +50,10 @@ def myprofile():
         isLogin = True
         conn = sqlite3.connect("hw.db")
         cursor = conn.cursor()
-        command = "SELECT email, age FROM users_table WHERE username = ?;"
+        command = "SELECT email, age, country, mbti, description FROM users_table WHERE username = ?;"
         cursor.execute(command, (session["username"],))
         result = cursor.fetchall()
-        return render_template("myprofile.html", username=session["username"], age=result[0][1], email=result[0][0], isLogin=isLogin)
+        return render_template("myprofile.html", active_page = "myprofile", username=session["username"], age=result[0][1], email=result[0][0], country = result[0][2], mbti = result[0][3], description = result[0][4], isLogin=isLogin)
     if "username" in session:
         return render_template("myprofile.html")
     else:
@@ -94,7 +94,9 @@ def login():
                 connector2.commit()
                 connector.close()
                 connector2.close()
+                print(session)
                 return redirect(url_for("index"))
+
         else:
             flash("Invalid")
             # print("input pw does NOT match pw!")
@@ -145,13 +147,16 @@ def database1():
         isLogin = True
     connector = sqlite3.connect("hw.db")
     cursor = connector.cursor()
-    command = "SELECT username, age, email, logindate FROM users_table"
+    command = "SELECT username, age, email, country, mbti, description, logindate FROM users_table"
     cursor.execute(command)
     users = cursor.fetchall()
     users_index = [i for i in range(1, len(users)+1)]
     users_username = []
     users_age = []
     users_email = []
+    users_country = []
+    users_mbti = []
+    users_description = []
     users_logindate = []
     loginCounts = []
     loginPeriod = []
@@ -159,7 +164,12 @@ def database1():
         users_username.append(user[0])
         users_age.append(user[1])
         users_email.append(user[2])
-        users_logindate.append(user[3])
+        users_country.append(user[3])
+        users_mbti.append(user[4])
+        users_description.append(user[5])
+        users_logindate.append(user[6])
+    connector.commit()
+    connector.close()
     connector2 = sqlite3.connect("hw.db")
     cursor2 = connector2.cursor()
     for i in range(7):
@@ -174,7 +184,7 @@ def database1():
     print(loginPeriod)
     connector.close()
     connector2.close()
-    return render_template("database1.html", num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, logindates = users_logindate, loginCount = counts, loginPeriod = loginPeriod)
+    return render_template("database1.html", active_page = "database", isLogin = isLogin, num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, country = users_country, mbti = users_mbti, description = users_description, logindates = users_logindate, loginCount = counts, loginPeriod = loginPeriod)
 
 @app.route('/update_database/<username>', methods=['POST'])
 def update_database(username):
@@ -183,8 +193,10 @@ def update_database(username):
     cursor = connector.cursor()
     age = request.form.get("age")
     email = request.form.get("email")
-    command = "UPDATE users_table SET age = ?, email = ? WHERE username = ?"
-    cursor.execute(command, (age, email, username))
+    mbti = request.form.get("mbti")
+    description = request.form.get("description")
+    command = "UPDATE users_table SET age = ?, email = ?, mbti = ?, description = ? WHERE username = ?"
+    cursor.execute(command, (age, email, mbti, description, username))
     connector.commit()
     connector.close()
     return jsonify({"success": True}), 200
@@ -201,15 +213,44 @@ def delete_user(username):
 
 @app.route("/database_main")
 def database_main():
+    isLogin = False
+    if "username" in session:
+        isLogin = True
     data = pandas.read_csv("consulting_data_content_logic.csv")
-
     # DataFrame
     # Gender distribution
     gender_distribution = data["gender"].value_counts().to_dict()
     type_distribution = data["type_of_consulting"].value_counts().to_dict()
     sentiment_distribution = data["sentiment"].value_counts().to_dict()
-    print(sentiment_distribution)
-    return render_template("database_main.html", gender_distribution=gender_distribution, type_distribution = type_distribution, sentiment_distribution = sentiment_distribution)
+
+    first, second, third, fourth = ["E", "I"], ["N", "S"], ["F", "T"], ["J", "P"]
+    conn = sqlite3.connect("hw.db")
+    cursor = conn.cursor()
+    MBTI_dict = {}
+    for f in first:
+        for s in second:
+            for t in third:
+                for fo in fourth:
+                    mbti = f+s+t+fo
+                    command2 = "SELECT COUNT(*) FROM users_table WHERE MBTI = ?"
+                    cursor.execute(command2, (mbti, ))
+                    result = cursor.fetchone()[0]
+                    MBTI_dict[mbti] = result
+    conn.close()
+
+    conn = sqlite3.connect("hw.db")
+    cursor = conn.cursor()
+    age_dict = {"10s": 0, "20s": 0, "30s": 0, "40s": 0, "50s": 0, "60s": 0}
+    for age_min in [10, 20, 30, 40, 50, 60]:
+        age_max = age_min+9
+        command2 = "SELECT COUNT(*) FROM users_table WHERE age >= ? and age <= ?"
+        cursor.execute(command2, (age_min, age_max, ))
+        result = cursor.fetchone()[0]
+        age_dict[str(age_min)+"s"] = result
+    conn.close()
+    print(age_dict)
+
+    return render_template("database_main.html", active_page = "database", isLogin = isLogin, gender_distribution=gender_distribution, type_distribution = type_distribution, sentiment_distribution = sentiment_distribution, age_distribution = age_dict, mbti_distribution = MBTI_dict)
     # gender_distribution = {"Male": 50}
     # Male: 500
     # Female: 490

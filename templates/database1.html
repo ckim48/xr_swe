@@ -15,6 +15,9 @@
                         <th scope="col" class="merriweather-bold">Username</th>
                         <th scope="col" class="merriweather-bold">Age</th>
                         <th scope="col" class="merriweather-bold">Email</th>
+                        <th scope="col" class="merriweather-bold">Country</th>
+                        <th scope="col" class="merriweather-bold">MBTI</th>
+                        <th scope="col" class="merriweather-bold">Description</th>
                         <th scope="col" class="merriweather-bold">Last Logged in</th>
                     </tr>
                 </thead>
@@ -25,6 +28,9 @@
                         <td class="merriweather"> {{usernames[user]}}</td>
                         <td class="merriweather"> {{ages[user]}}</td>
                         <td class="merriweather"> {{emails[user]}}</td>
+                        <td class="merriweather"> {{country[user]}}</td>
+                        <td class="merriweather"> {{mbti[user]}}</td>
+                        <td class="merriweather"> {{description[user]}}</td>
                         <td class="merriweather"> {{logindates[user]}}</td>
                         <td>
                             <button class="btn btn-primary edit-data" data-id="{{usernames[user]}}" data-bs-toggle="modal" data-bs-target="#editUserModal">Edit</button>
@@ -56,6 +62,15 @@
                             <label for="emailInput" class="form-label merriweather">Email</label>
                             <input type="text" class="form-control input-blk" id="emailInput">
                         </div>
+                        <div>
+                            <label for="mbtiInput" class="form-label merriweather">MBTI</label>
+                            <input type="text" class="form-control input-blk" id="mbtiInput">
+                        </div>
+                        <div>
+                            <label for="descInput" class="form-label merriweather">Description</label>
+                            <input type="text" class="form-control input-blk" id="descInput">
+                        </div>
+
                         <button type="submit" class="btn btn-primary mt-4 save-edit border-r merriweather-bold py-2 px-3">Save Changes</button>
                     </form>
                 </div>
@@ -108,9 +123,13 @@
             const username = this.getAttribute('data-id');
             const ageInput = document.getElementById('ageInput').value;
             const emailInput = document.getElementById('emailInput').value;
+            const mbtiInput = document.getElementById('mbtiInput').value;
+            const descInput = document.getElementById('descInput').value;
             const formData = new FormData();
             formData.append('age', ageInput);
             formData.append('email', emailInput);
+            formData.append('mbti', mbtiInput);
+            formData.append('description', descInput);
 
             fetch(`/update_database/${username}`, { method: 'POST', body: formData })
             .then(response => response.json())
@@ -120,6 +139,8 @@
                     // Update the row data
                     window.rowToEdit.cells[2].textContent = ageInput;
                     window.rowToEdit.cells[3].textContent = emailInput;
+                    window.rowToEdit.cells[5].textContent = mbtiInput;
+                    window.rowToEdit.cells[6].textContent = descInput;
                 const editModalEl = document.getElementById('editUserModal');
                 const editModal = bootstrap.Modal.getInstance(editModalEl);
                 editModal.hide();
