@@ -36,7 +36,7 @@
             <div class="col-md-6">
                 <div class="card chart-card px-4 py-4 mx-auto">
                     <div class="card-body">
-                            <h2 class="card-title text-center">Graph Title</h2>
+                            <h2 class="card-title text-center">Consultants' Gender Distribution</h2>
                             <p class="text-center">Short description</p>
                             <canvas id="gender_distribution"></canvas>
                     </div>
@@ -46,7 +46,7 @@
             <div class="col-md-6">
                   <div class="card chart-card px-4 py-4 mx-auto">
                     <div class="card-body">
-                            <h2 class="card-title text-center">Graph Title</h2>
+                            <h2 class="card-title text-center">Consulting Topic</h2>
                             <p class="text-center">Short description</p>
                             <canvas id="type_distribution"></canvas>
                     </div>
@@ -56,14 +56,29 @@
             <div class="col-md-6">
                 <div class="card chart-card px-4 py-4 mx-auto">
                     <div class="card-body">
-                            <h2 class="card-title text-center">Graph Title</h2>
+                            <h2 class="card-title text-center">Consulting Sentiment Feedback</h2>
                             <p class="text-center">Short description</p>
                             <canvas id="sentiment_dist_canvas"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-
+                <div class="card chart-card px-4 py-4 mx-auto">
+                    <div class="card-body">
+                            <h2 class="card-title text-center">Age Distribution</h2>
+                            <p class="text-center">Short description</p>
+                            <canvas id="age_distribution"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card chart-card px-4 py-4 mx-auto">
+                    <div class="card-body">
+                            <h2 class="card-title text-center">MBTI Distribution</h2>
+                            <p class="text-center">Short description</p>
+                            <canvas id="mbti_distribution"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -107,14 +122,9 @@
                 }
     );
 
-
-
-    var ctx_sentiment = document.getElementById('sentiment_dist_canvas').getContext("2d");
-            
-            var sentimentDistribution = {{sentiment_distribution | tojson}};
-            console.log(sentimentDistribution);
-            var labels = ["Negative", "Neutral", "Positive"];
-            var raw_data = sentimentDistribution;
+    var sentimentDistribution = {{sentiment_distribution | tojson}};
+    var labels = ["Negative", "Neutral", "Positive"]
+    var raw_data = sentimentDistribution;
             console.log("init print raw_data");
             console.log(raw_data);
             //console.log(raw_data.length);
@@ -133,21 +143,48 @@
                     data[2] += raw_data[i];
                 }
             }
-
-            var typeChart = new Chart(ctx_sentiment, {
-                type: 'bar',
-                data: {
+    drawChart('sentiment_dist_canvas', 'bar',{
                     labels: labels,
                     datasets:[{
                         data: data
                     }]
-                },
-                options: {
+                }, {
                       legend: {
                         display: false,
                       }
                 }
-            });
+    );
+
+    var ageDistribution = {{ age_distribution | tojson }};
+    var labels = Object.keys(ageDistribution);
+    var data = Object.values(ageDistribution);
+    drawChart('age_distribution', 'pie', {
+                    labels: labels,
+                    datasets:[{
+                        data: data
+                    }]
+                }
+    );
+
+    var mbtiDistribution = {{mbti_distribution | tojson }};
+    var labels = Object.keys(mbtiDistribution);
+    var data = Object.values(mbtiDistribution);
+    drawChart('mbti_distribution', 'bar',{
+                    labels: labels,
+                    datasets:[{
+                        data: data
+                    }]
+                }, {
+                      legend: {
+                        display: false,
+                      }
+                }
+    );
+
+
+
+
+
 
 </script>
 

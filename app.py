@@ -168,6 +168,8 @@ def database1():
         users_mbti.append(user[4])
         users_description.append(user[5])
         users_logindate.append(user[6])
+    connector.commit()
+    connector.close()
     connector2 = sqlite3.connect("hw.db")
     cursor2 = connector2.cursor()
     for i in range(7):
@@ -191,8 +193,10 @@ def update_database(username):
     cursor = connector.cursor()
     age = request.form.get("age")
     email = request.form.get("email")
-    command = "UPDATE users_table SET age = ?, email = ? WHERE username = ?"
-    cursor.execute(command, (age, email, username))
+    mbti = request.form.get("mbti")
+    description = request.form.get("description")
+    command = "UPDATE users_table SET age = ?, email = ?, mbti = ?, description = ? WHERE username = ?"
+    cursor.execute(command, (age, email, mbti, description, username))
     connector.commit()
     connector.close()
     return jsonify({"success": True}), 200
@@ -212,16 +216,41 @@ def database_main():
     isLogin = False
     if "username" in session:
         isLogin = True
-
     data = pandas.read_csv("consulting_data_content_logic.csv")
-
     # DataFrame
     # Gender distribution
     gender_distribution = data["gender"].value_counts().to_dict()
     type_distribution = data["type_of_consulting"].value_counts().to_dict()
     sentiment_distribution = data["sentiment"].value_counts().to_dict()
-    print(sentiment_distribution)
-    return render_template("database_main.html", active_page = "database", isLogin = isLogin, gender_distribution=gender_distribution, type_distribution = type_distribution, sentiment_distribution = sentiment_distribution)
+
+    first, second, third, fourth = ["E", "I"], ["N", "S"], ["F", "T"], ["J", "P"]
+    conn = sqlite3.connect("hw.db")
+    cursor = conn.cursor()
+    MBTI_dict = {}
+    for f in first:
+        for s in second:
+            for t in third:
+                for fo in fourth:
+                    mbti = f+s+t+fo
+                    command2 = "SELECT COUNT(*) FROM users_table WHERE MBTI = ?"
+                    cursor.execute(command2, (mbti, ))
+                    result = cursor.fetchone()[0]
+                    MBTI_dict[mbti] = result
+    conn.close()
+
+    conn = sqlite3.connect("hw.db")
+    cursor = conn.cursor()
+    age_dict = {"10s": 0, "20s": 0, "30s": 0, "40s": 0, "50s": 0, "60s": 0}
+    for age_min in [10, 20, 30, 40, 50, 60]:
+        age_max = age_min+9
+        command2 = "SELECT COUNT(*) FROM users_table WHERE age >= ? and age <= ?"
+        cursor.execute(command2, (age_min, age_max, ))
+        result = cursor.fetchone()[0]
+        age_dict[str(age_min)+"s"] = result
+    conn.close()
+    print(age_dict)
+
+    return render_template("database_main.html", active_page = "database", isLogin = isLogin, gender_distribution=gender_distribution, type_distribution = type_distribution, sentiment_distribution = sentiment_distribution, age_distribution = age_dict, mbti_distribution = MBTI_dict)
     # gender_distribution = {"Male": 50}
     # Male: 500
     # Female: 490
