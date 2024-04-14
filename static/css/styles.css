@@ -1,7 +1,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  color: #444444;
+  color: white;
 }
 
 a {
@@ -311,7 +311,7 @@ h6 {
 .navbar-mobile a:focus {
   padding: 10px 20px;
   font-size: 15px;
-  color: #394047;
+  color: black;
 }
 
 .navbar-mobile a:hover,
@@ -566,7 +566,7 @@ section {
 .about .icon-boxes h3 {
   font-size: 28px;
   font-weight: 700;
-  color: #394047;
+  color: white;
   margin-bottom: 15px;
 }
 
@@ -608,7 +608,7 @@ section {
 }
 
 .about .icon-box .title a {
-  color: #343a40;
+  color: white;
   transition: 0.3s;
 }
 
@@ -736,7 +736,7 @@ section {
 }
 
 .services .title a {
-  color: #343a40;
+  color: white;
   transition: 0.3s;
 }
 
@@ -795,7 +795,7 @@ section {
 .team .member {
   text-align: center;
   margin-bottom: 20px;
-  background: #343a40;
+  background: white;
   position: relative;
   overflow: hidden;
   border-radius: 4px;
@@ -935,8 +935,8 @@ section {
 
 #footer .footer-top {
   background: #272c30;
-  border-top: 1px solid #394047;
-  border-bottom: 1px solid #394047;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
   padding: 60px 0 30px 0;
 }
 
@@ -963,7 +963,7 @@ section {
 #footer .footer-top .social-links a {
   font-size: 16px;
   display: inline-block;
-  background: #394047;
+  background: white;
   color: #fff;
   line-height: 1;
   padding: 10px 0;
@@ -1109,6 +1109,14 @@ body{
 .color-white{
 color:white !important;
 }
+.color-black{
+color:black !important;
+}
+.user-chart{
+    border: 1.5px solid white;
+    border-radius: 9px;
+    padding: 18px 18px;
+}
 .center {
     display: flex;
     flex-direction: column;
@@ -1132,19 +1140,25 @@ tbody tr:nth-child(even) {
 .table tbody tr:hover{
     scale:1.02;
 }
-
+.color-black{
+    color:black !important;
+}
 .graphmargin{
     margin-top: 120px;
 }
 .chart-card{
     width: 80%;
-    height: 600px;
-    background-color: rgba(249, 255, 255, 0.9 );
-    border: 2px solid rgba(79, 210, 255, 1):
+    height: 400px;
+    background-color: rgba(243, 243, 243, 0.1);
+    border: 1.5px solid white;
     transition: transform 0.3s ease;
 }
 .chart-card:hover{
     transform: translateY(-10px);
+}
+#gender_distribution {
+    width: 250px !important;
+    height: 250px !important;
 }
 .edit-data{
   border: none;
