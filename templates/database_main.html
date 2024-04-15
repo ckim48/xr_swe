@@ -34,48 +34,48 @@
 
         <div class="row graphmargin">
             <div class="col-md-6">
-                <div class="card chart-card px-4 py-4 mx-auto">
+                <div class="card chart-card px-4 py-3 mx-auto">
                     <div class="card-body">
                             <h2 class="card-title text-center color-white">Consultants' Gender Distribution</h2>
                             <p class="text-center color-white">Short description</p>
-                            <canvas id="gender_distribution"></canvas>
+                            <canvas class="mx-auto" id="gender_distribution"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                  <div class="card chart-card px-4 py-4 mx-auto">
+                  <div class="card chart-card px-4 py-3 mx-auto">
                     <div class="card-body">
-                            <h2 class="card-title text-center">Consulting Topic</h2>
-                            <p class="text-center">Short description</p>
-                            <canvas id="type_distribution"></canvas>
+                            <h2 class="card-title text-center color-white">Consulting Topic</h2>
+                            <p class="text-center color-white">Short description</p>
+                            <canvas  class="mx-auto" id="type_distribution"></canvas>
                     </div>
                 </div>
             </div>
             
             <div class="col-md-6">
-                <div class="card chart-card px-4 py-4 mx-auto">
+                <div class="card chart-card px-4 py-4 mx-auto mt-md-5">
                     <div class="card-body">
-                            <h2 class="card-title text-center">Consulting Sentiment Feedback</h2>
-                            <p class="text-center">Short description</p>
-                            <canvas id="sentiment_dist_canvas"></canvas>
+                            <h2 class="card-title text-center color-white">Consulting Sentiment Feedback</h2>
+                            <p class="text-center color-white">Short description</p>
+                            <canvas  class="mx-auto" id="sentiment_dist_canvas"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card chart-card px-4 py-4 mx-auto">
+                <div class="card chart-card px-4 py-3 mx-auto mt-md-5">
                     <div class="card-body">
-                            <h2 class="card-title text-center">Age Distribution</h2>
-                            <p class="text-center">Short description</p>
-                            <canvas id="age_distribution"></canvas>
+                            <h2 class="card-title text-center color-white">Age Distribution</h2>
+                            <p class="text-center color-white">Short description</p>
+                            <canvas  class="mx-auto" id="age_distribution"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="card chart-card px-4 py-4 mx-auto">
+                <div class="card chart-card px-4 py-3 mx-auto mt-5">
                     <div class="card-body">
-                            <h2 class="card-title text-center">MBTI Distribution</h2>
-                            <p class="text-center">Short description</p>
-                            <canvas id="mbti_distribution"></canvas>
+                            <h2 class="card-title text-center color-white">MBTI Distribution</h2>
+                            <p class="text-center color-white">Short description</p>
+                            <canvas  class="mx-auto" id="mbti_distribution"></canvas>
                     </div>
                 </div>
             </div>
@@ -114,11 +114,32 @@
                     datasets:[{
                         data: data
                     }]
-                }, {
-                      legend: {
-                        display: false,
-                      }
+                },  {
+        scales: {
+            y: {
+                ticks: {
+                    beginAtZero: true,
+                    color: 'white',
+                },
+                grid: {
+                    color: 'white',
                 }
+            },
+            x:{
+                ticks:{
+                    color: 'white',
+                },
+            },
+        },
+        plugins: {
+            legend: {
+            display: false,
+                labels: {
+                    color: 'white'
+                }
+            }
+        }
+    }
     );
 
     var sentimentDistribution = {{sentiment_distribution | tojson}};
@@ -147,11 +168,32 @@
                     datasets:[{
                         data: data
                     }]
-                }, {
-                      legend: {
-                        display: false,
-                      }
+                },  {
+        scales: {
+            y: {
+                ticks: {
+                    beginAtZero: true,
+                    color: 'white',
+                },
+                grid: {
+                    color: 'white',
                 }
+            },
+            x:{
+                ticks:{
+                    color: 'white',
+                },
+            },
+        },
+        plugins: {
+            legend: {
+            display: false,
+                labels: {
+                    color: 'white'
+                }
+            }
+        }
+    }
     );
 
     var ageDistribution = {{ age_distribution | tojson }};
@@ -162,7 +204,17 @@
                     datasets:[{
                         data: data
                     }]
+                },
+                 {
+
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white'
                 }
+            }
+        }
+    }
     );
 
     var mbtiDistribution = {{mbti_distribution | tojson }};
@@ -173,11 +225,32 @@
                     datasets:[{
                         data: data
                     }]
-                }, {
-                      legend: {
-                        display: false,
-                      }
+                },  {
+        scales: {
+            y: {
+                ticks: {
+                    beginAtZero: true,
+                    color: 'white',
+                },
+                grid: {
+                    color: 'white',
                 }
+            },
+            x:{
+                ticks:{
+                    color: 'white',
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                display: false,
+                labels: {
+                    color: 'white'
+                }
+            }
+        }
+    }
     );
 
 

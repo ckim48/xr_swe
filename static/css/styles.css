@@ -1146,12 +1146,27 @@ tbody tr:nth-child(even) {
 .graphmargin{
     margin-top: 120px;
 }
+.chart-card .card-title{
+    font-size:24px;
+}
 .chart-card{
     width: 80%;
     height: 400px;
     background-color: rgba(243, 243, 243, 0.1);
     border: 1.5px solid white;
     transition: transform 0.3s ease;
+}
+#mbti_distribution{
+    width: 65%;
+}
+#age_distribution{
+    width: 75%;
+}
+#sentiment_dist_canvas{
+width: 98%;
+}
+#type_distribution{
+width: 100%;
 }
 .chart-card:hover{
     transform: translateY(-10px);
