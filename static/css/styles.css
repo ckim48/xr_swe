@@ -1193,3 +1193,7 @@ width: 100%;
 .border-r{
   border-radius: 3px;
 }
+
+.mt-6 {
+    margin-top: 5rem;
+}
