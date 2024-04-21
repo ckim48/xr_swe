@@ -37,7 +37,6 @@
                 <div class="card chart-card px-4 py-3 mx-auto">
                     <div class="card-body">
                             <h2 class="card-title text-center color-white">Consultants' Gender Distribution</h2>
-                            <p class="text-center color-white">Short description</p>
                             <canvas class="mx-auto" id="gender_distribution"></canvas>
                     </div>
                 </div>
@@ -46,7 +45,6 @@
                   <div class="card chart-card px-4 py-3 mx-auto">
                     <div class="card-body">
                             <h2 class="card-title text-center color-white">Consulting Topic</h2>
-                            <p class="text-center color-white">Short description</p>
                             <canvas  class="mx-auto" id="type_distribution"></canvas>
                     </div>
                 </div>
@@ -56,7 +54,6 @@
                 <div class="card chart-card px-4 py-4 mx-auto mt-md-5">
                     <div class="card-body">
                             <h2 class="card-title text-center color-white">Consulting Sentiment Feedback</h2>
-                            <p class="text-center color-white">Short description</p>
                             <canvas  class="mx-auto" id="sentiment_dist_canvas"></canvas>
                     </div>
                 </div>
@@ -65,7 +62,6 @@
                 <div class="card chart-card px-4 py-3 mx-auto mt-md-5">
                     <div class="card-body">
                             <h2 class="card-title text-center color-white">Age Distribution</h2>
-                            <p class="text-center color-white">Short description</p>
                             <canvas  class="mx-auto" id="age_distribution"></canvas>
                     </div>
                 </div>
@@ -74,8 +70,7 @@
                 <div class="card chart-card px-4 py-3 mx-auto mt-5">
                     <div class="card-body">
                             <h2 class="card-title text-center color-white">MBTI Distribution</h2>
-                            <p class="text-center color-white">Short description</p>
-                            <canvas  class="mx-auto" id="mbti_distribution"></canvas>
+                            <canvas  class="mx-auto pb-3" id="mbti_distribution"></canvas>
                     </div>
                 </div>
             </div>
@@ -103,7 +98,15 @@
                     datasets:[{
                         data: data
                     }]
+                }, {
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white'
                 }
+            }
+        }
+    }
     );
 
     var typeDistribution = {{type_distribution | tojson }};
