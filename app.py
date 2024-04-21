@@ -260,6 +260,12 @@ def database_main():
     # Other: 10
     # {"Male": 500, "Female": 490,..."}
 
+@app.route("/dashboard")
+def dashboard():
+    isLogin = False
+    if "username" in session:
+        isLogin = True
+    return render_template('dashboard.html', isLogin=isLogin)
 
 
 
