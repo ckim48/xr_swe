@@ -408,7 +408,7 @@ h6 {
 #hero h2 {
   color: #fff;
   margin-bottom: 20px;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 700;
 }
 
@@ -563,6 +563,9 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
+.aboutbg{
+   background: linear-gradient(rgba(12, 13, 14, 0.8), rgba(12, 13, 14, 0.8)), url("../img/stars.jpg") !important;
+}
 .about .icon-boxes h3 {
   font-size: 28px;
   font-weight: 700;
@@ -754,7 +757,7 @@ section {
 # Cta
 --------------------------------------------------------------*/
 .cta {
-  background: linear-gradient(rgba(12, 13, 14, 0.8), rgba(12, 13, 14, 0.8)), url("../img/cta-bg.jpg") fixed center center;
+  background: linear-gradient(rgba(12, 13, 14, 0.8), rgba(12, 13, 14, 0.8)), url("../img/stars.jpg") fixed center center;
   background-size: cover;
   padding: 120px 0;
 }
@@ -1113,9 +1116,10 @@ color:white !important;
 color:black !important;
 }
 .user-chart{
+background-color: rgba(243, 243, 243, 0.1);
     border: 1.5px solid white;
     border-radius: 9px;
-    padding: 18px 18px;
+    padding: 22px 22px;
 }
 .center {
     display: flex;

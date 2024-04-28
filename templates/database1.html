@@ -71,6 +71,12 @@
                     <canvas class="mt-5" id="barChart"></canvas>
                 </div>
             </div>
+                        <div class="col-md-6">
+                <div class="user-chart mt-4">
+                    <h4>New Users by Month</h4>
+                    <canvas class="mt-5" id="barChart2"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -167,6 +173,8 @@
                 ticks: {
                     beginAtZero: true,
                     color: 'white',
+                    stepSize: 1,
+
                 },
                 grid: {
                     color: 'white',
@@ -187,6 +195,50 @@
         }
     }
 });
+
+   var ctx3 = document.getElementById('barChart2').getContext('2d');
+        var signupCount = {{ signupCount | tojson | safe }};
+        var signupPeriod = {{ signupPeriod | tojson | safe }};
+        var myChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: signupPeriod,
+                datasets: [{
+                    label: '# of Signup Users',
+                    data: signupCount,
+                    backgroundColor: 'rgb(72, 202, 228)',
+                    borderColor: 'rgb(72, 202, 228)',
+                    borderWidth: 1
+                }]
+            },
+      options: {
+        scales: {
+            y: {
+                ticks: {
+                    beginAtZero: true,
+                    color: 'white',
+                    stepSize: 1,
+
+                },
+                grid: {
+                    color: 'white',
+                }
+            },
+            x:{
+                ticks:{
+                    color: 'white',
+                },
+            },
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'white'
+                }
+            }
+        }
+    }
+        });
     </script>
 </body>
     {% endblock %}

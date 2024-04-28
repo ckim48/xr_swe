@@ -48,6 +48,7 @@
         <ul>
           <li><a class="nav-link scrollto" href="{{url_for('index')}}#about">About</a></li>
           <li><a class="nav-link  scrollto {%if active_page == 'myprofile'%}active{%endif%}" href="{{url_for('myprofile')}}">My Profile</a></li>
+          {% if isAdmin == True %}
           <li class="dropdown"><a class = "{%if active_page == 'database'%}active{%endif%}" href="#"><span>Database</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
                 <li><a href = {{url_for('database1')}}>Users' Database</a></li>
@@ -55,6 +56,7 @@
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="{{url_for('dashboard')}}">Dashboard</a></li>
+          {% endif %}
           {% if isLogin == True %}
             <li><a class="nav-link scrollto" href="{{url_for('logout')}}">Logout</a></li>
           {% else %}

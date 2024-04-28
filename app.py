@@ -39,23 +39,27 @@ def identify_sentiment(audio): # audio = name of audio file in string
 @app.route("/", methods=["GET", "POST"])
 def index():
     isLogin = False
+    isAdmin = False
     if "username" in session:
         isLogin = True
-    return render_template('index.html', isLogin = isLogin)
+        if session["username"] == "testtest":
+            isAdmin = True
+    return render_template('index.html', isLogin = isLogin, isAdmin=isAdmin)
 
 @app.route("/myprofile", methods=["GET", "POST"])
 def myprofile():
     isLogin = False
+    isAdmin = False
     if "username" in session:
+        if session["username"] == "testtest":
+            isAdmin = True
         isLogin = True
         conn = sqlite3.connect("hw.db")
         cursor = conn.cursor()
         command = "SELECT email, age, country, mbti, description FROM users_table WHERE username = ?;"
         cursor.execute(command, (session["username"],))
         result = cursor.fetchall()
-        return render_template("myprofile.html", active_page = "myprofile", username=session["username"], age=result[0][1], email=result[0][0], country = result[0][2], mbti = result[0][3], description = result[0][4], isLogin=isLogin)
-    if "username" in session:
-        return render_template("myprofile.html")
+        return render_template("myprofile.html", isAdmin=isAdmin, active_page = "myprofile", username=session["username"], age=result[0][1], email=result[0][0], country = result[0][2], mbti = result[0][3], description = result[0][4], isLogin=isLogin)
     else:
         return render_template("login.html")
 
@@ -122,6 +126,7 @@ def signup():
         # store value into database
         conn = sqlite3.connect("hw.db")
         cursor = conn.cursor()
+
         command = "SELECT password FROM users_table WHERE username = ?;"
         cursor.execute(command,(username,))
         result = cursor.fetchone()
@@ -131,8 +136,9 @@ def signup():
         if result == None:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-            command = "INSERT INTO users_table (username, password, email, age, country, MBTI, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
-            cursor.execute(command, (username, hashed_password, email, age, country, MBTI, description))
+            current_time = datetime.now().strftime("%Y-%m-%d")
+            command = "INSERT INTO users_table (username, password, email, age, country, MBTI, description, signdate) VALUES (?, ?, ?, ?, ?, ?, ?,?)"
+            cursor.execute(command, (username, hashed_password, email, age, country, MBTI, description,current_time))
             conn.commit()
             conn.close()
         else:
@@ -145,9 +151,12 @@ def signup():
 
 @app.route("/database1")
 def database1():
+    isAdmin = False
     isLogin = False
     if "username" in session:
         isLogin = True
+        if session["username"] == "testtest":
+            isAdmin = True
     connector = sqlite3.connect("hw.db")
     cursor = connector.cursor()
     command = "SELECT username, age, email, country, mbti, description, logindate FROM users_table"
@@ -185,9 +194,19 @@ def database1():
     counts = [count[0] for count in loginCounts]
     counts = [count[0] for count in counts]
     print(loginPeriod)
+    signup_counts = {}
+    for user in users:
+        signup_month = user[6].split("-")[0] + "-" + user[6].split("-")[1]
+        if signup_month in signup_counts:
+            signup_counts[signup_month] += 1
+        else:
+            signup_counts[signup_month] = 1
+
+    signup_period = list(signup_counts.keys())
+    signup_count = list(signup_counts.values())
     connector.close()
     connector2.close()
-    return render_template("database1.html", active_page = "database", isLogin = isLogin, num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, country = users_country, mbti = users_mbti, description = users_description, logindates = users_logindate, loginCount = counts, loginPeriod = loginPeriod)
+    return render_template("database1.html", isAdmin=isAdmin, active_page = "database", isLogin = isLogin, num_users = len(users), indices = users_index, usernames = users_username, ages = users_age, emails = users_email, country = users_country, mbti = users_mbti, description = users_description, logindates = users_logindate, loginCount = counts, loginPeriod = loginPeriod, signupCount=signup_count, signupPeriod=signup_period)
 
 @app.route('/update_database/<username>', methods=['POST'])
 def update_database(username):
@@ -216,9 +235,12 @@ def delete_user(username):
 
 @app.route("/database_main")
 def database_main():
+    isAdmin = False
     isLogin = False
     if "username" in session:
         isLogin = True
+        if session["username"] == "testtest":
+            isAdmin = True
     data = pandas.read_csv("consulting_data_content_logic.csv")
     # DataFrame
     # Gender distribution
@@ -253,7 +275,7 @@ def database_main():
     conn.close()
     print(age_dict)
 
-    return render_template("database_main.html", active_page = "database", isLogin = isLogin, gender_distribution=gender_distribution, type_distribution = type_distribution, sentiment_distribution = sentiment_distribution, age_distribution = age_dict, mbti_distribution = MBTI_dict)
+    return render_template("database_main.html", active_page = "database", isLogin = isLogin, gender_distribution=gender_distribution, type_distribution = type_distribution, sentiment_distribution = sentiment_distribution, age_distribution = age_dict, mbti_distribution = MBTI_dict, isAdmin=isAdmin)
     # gender_distribution = {"Male": 50}
     # Male: 500
     # Female: 490
@@ -263,9 +285,12 @@ def database_main():
 @app.route("/dashboard")
 def dashboard():
     isLogin = False
+    isAdmin = False
     if "username" in session:
         isLogin = True
-    return render_template('dashboard.html', isLogin=isLogin)
+        if session["username"] == "testtest":
+            isAdmin = True
+    return render_template('dashboard.html', isLogin=isLogin, isAdmin=isAdmin)
 
 
 
