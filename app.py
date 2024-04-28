@@ -157,8 +157,8 @@ def signup():
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
             current_time = datetime.now().strftime("%Y-%m-%d")
-            command = "INSERT INTO users_table (username, password, email, age, country, MBTI, description, signdate) VALUES (?, ?, ?, ?, ?, ?, ?,?)"
-            cursor.execute(command, (username, hashed_password, email, age, country, MBTI, description,current_time))
+            command = "INSERT INTO users_table (username, password, email, age, country, MBTI, description, signdate, sentiment) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)"
+            cursor.execute(command, (username, hashed_password, email, age, country, MBTI, description,current_time, 0))
             conn.commit()
             conn.close()
         else:
