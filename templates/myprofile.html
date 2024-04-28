@@ -5,37 +5,38 @@
     {% block profile %}
 
     <div class = "container">
-        <div class = "card mt-6 shadow-lg border-0">
-            <div class = "card-header bg-primary text-white">
-                <h2>My Profile</h2>
+        <div class = "card mt-5 shadow-lg border-0">
+            <div class = "card-header bg-primary text-white pt-5">
+                <h1 class="merriweather-bold">My Profile</h1>
             </div>
-            <div class = "card-body">
+            <div class = "card-body mx-5 my-3">
                 <div class = "row mt-3">
                     <div class = "col-12 col-md-4">
-                        <label><strong>Username: </strong></label>
-                        <p class="user-info">{{username}}</p>
+                        <label class="merriweather" style="font-size: 18px;"><strong>Username: </strong></label>
+                        <p class="user-info input-blk mt-3" style="width: 80%;">{{username}}</p>
                     </div>
                     <div class = "col-12 col-md-4">
-                        <label><strong>Age: </strong></label>
-                        <p class="user-info">{{age}}</p>
+                        <label class="merriweather" style="font-size: 18px;"><strong>Age: </strong></label>
+                        <p class="user-info input-blk mt-3" style="width: 80%;">{{age}}</p>
                     </div>
                     <div class = "col-12 col-md-4">
-                        <label><strong>Email: </strong></label>
-                        <p class="user-info">{{email}}</p>
+                        <label class="merriweather" style="font-size: 18px;"><strong>Email: </strong></label>
+                        <p class="user-info input-blk mt-3" style="width: 80%;">{{email}}</p>
                     </div>
                 </div>
                 <div class = "row mt-3">
                     <div class = "col-12 col-md-4">
-                        <label><strong>Country: </strong></label>
-                        <p class="user-info">{{country}}</p>
+                        <label class="merriweather" style="font-size: 18px;"><strong>Country: </strong></label>
+                        <p class="user-info input-blk mt-3" style="width: 80%;">{{country}}</p>
                     </div>
                     <div class = "col-12 col-md-4">
-                        <label><strong>MBTI: </strong></label>
-                        <p class="user-info">{{mbti}}</p>
-                    </div>
-                    <div class = "col-12 col-md-4">
-                        <label><strong>Description </strong></label>
-                        <p class="user-info">{{description}}</p>
+                        <label class="merriweather" style="font-size: 18px;"><strong>MBTI: </strong></label>
+                        <p class="user-info input-blk mt-3" style="width: 80%;">{{MBTI}}</p>
+                </div>
+                <div class="row mt-3">
+                    <div>
+                        <label class="merriweather" style="font-size: 18px;"><strong>Short Description </strong></label>
+                        <p class="user-info input-blk mt-3">{{description}}</p>
                     </div>
                 </div>
             </div>
