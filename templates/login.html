@@ -8,12 +8,12 @@
 <body>
 <div class="container">
     <h1 class="title">Login</h1>
-    <form action="/login" method="POST" class="login-container">
+    <form action="/login" method="POST" class="login-container merriweather-bold">
         <div>
             <p class="label">Username:</p>
-            <input placeholder="Username" name="input_username"/>
+            <input placeholder="Username" class="input-blk merriweather-bold" name="input_username"/>
             <p class="label">Password:</p>
-            <input placeholder="Password" type="password" name="input_password"/>
+            <input placeholder="Password" type="password" class="input-blk merriweather-bold"  name="input_password"/>
         </div>
         <br/>
         {% with messages = get_flashed_messages() %}
@@ -22,8 +22,8 @@
              {% endif %}
         {% endwith %}
         <div class="button-container">
-            <button type="submit" class="action-button">Submit</button>
-            <a href="{{url_for('signup')}}" class="action-button">Create-Account</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{url_for('signup')}}" class="btn btn-primary" style="text-align: center;">Create-Account</a>
         </div>
     </form>
 </div>

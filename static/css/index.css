@@ -14,17 +14,17 @@ align-items: center;
 .title{
 font-family: "Merriweather", serif;
 font-weight: 900px;
-font-size: 50px;
+font-size: 45px;
 font-style: normal;
 color: white;
 }
 
 .login-container{
 background-color: white;
-width: 700px;
+width: 410px;
 height: 400px;
 border-radius: 10px;
-padding: 50px;
+padding: 40px;
 display: flex;
 justify-content: space-between;
 flex-direction: column;
@@ -32,7 +32,7 @@ flex-direction: column;
 
 .label{
 font-family: "Merriweather", serif;
-font-size: 20px;
+font-size: 17px;
 font-style: normal;
 color: black;
 }
@@ -42,36 +42,41 @@ display: flex;
 justify-content: center;
 flex-direction: column;
 gap: 10px;
-margin-bottom:px;
 }
 
-.action-button{
-text-decoration: none;
-text-align: center;
-background-color: #6f42c1;
-padding: 10px 0px 10px 0px;
-width: 100%;
-color: white;
-font-family: "Merriweather", serif;
-font-weight: bold;
-font-size: 18px;
-border: none;
-cursor: pointer;
+.container .btn-primary {
+    text-decoration: none;
+    background-color: #6f42c1;
+    width: 100%;
+    font-family: "Merriweather", serif;
+    font-weight: bold;
+    border-radius: 0px;
+    color: white;
+    font-size: 16px;
+    padding: 9px 0px 9px 0px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.action-button: hover{
-cursor: pointer;
+.container .btn-primary:hover {
+    background-color: #0056b3;
+    color: white;
 }
-
-input{
-width: 100%;
-padding: 12px 20px;
-margin: 8px 0;
-box-sizing: border-box;
-border: none;
-border-bottom: 2px solid black;
+.input-blk{
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 2px #b8b8aa solid;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    width: 95%;
+    font-size: 17px;
 }
-
+.merriweather-bold {
+    font-family: "Merriweather", serif;
+    font-weight: 900;
+    font-style: normal;
+}
 .wrong-message{
     color:red;
 }

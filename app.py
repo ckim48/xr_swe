@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify, send_file
 import sqlite3
 import bcrypt
 from datetime import datetime, timedelta
@@ -292,9 +292,15 @@ def dashboard():
             isAdmin = True
     return render_template('dashboard.html', isLogin=isLogin, isAdmin=isAdmin)
 
-
-
-
+@app.route('/download_mac')
+def download_mac():
+    file_path = "consulting_data_content_logic.csv"
+    return send_file(file_path)
+# send_file is used to send the correspoding file to the user's browser for download
+@app.route('/download_window')
+def download_window():
+    file_path = "consulting_data_content_logic.csv"
+    return send_file(file_path)
 
 if __name__ =="__main__":
     app.run(debug=True)
