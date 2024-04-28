@@ -49,8 +49,11 @@ def index():
 @app.route("/myprofile", methods=["GET", "POST"])
 def myprofile():
     isLogin = False
+    isAdmin = False
     if "username" in session:
         isLogin = True
+        if session["username"] == "testtest":
+            isAdmin = True
         conn = sqlite3.connect("hw.db")
         cursor = conn.cursor()
         command = "SELECT email, age, country, mbti, description, sentiment FROM users_table WHERE username = ?;"
@@ -74,7 +77,7 @@ def myprofile():
         print(loginPeriod)
         connector2.close()
 
-        return render_template("myprofile.html", loginCount = counts[::-1], loginPeriod = loginPeriod[::-1], active_page = "myprofile", username=session["username"], age=result[0][1], email=result[0][0], country = result[0][2], mbti = result[0][3], description = result[0][4], sentiment = result[0][5], isLogin=isLogin)
+        return render_template("myprofile.html", loginCount = counts[::-1], isAdmin=isAdmin,loginPeriod = loginPeriod[::-1], active_page = "myprofile", username=session["username"], age=result[0][1], email=result[0][0], country = result[0][2], mbti = result[0][3], description = result[0][4], sentiment = result[0][5], isLogin=isLogin)
     if "username" in session:
         return render_template("myprofile.html")
     else:
