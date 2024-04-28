@@ -49,17 +49,34 @@ def index():
 @app.route("/myprofile", methods=["GET", "POST"])
 def myprofile():
     isLogin = False
-    isAdmin = False
     if "username" in session:
-        if session["username"] == "testtest":
-            isAdmin = True
         isLogin = True
         conn = sqlite3.connect("hw.db")
         cursor = conn.cursor()
-        command = "SELECT email, age, country, mbti, description FROM users_table WHERE username = ?;"
+        command = "SELECT email, age, country, mbti, description, sentiment FROM users_table WHERE username = ?;"
         cursor.execute(command, (session["username"],))
         result = cursor.fetchall()
-        return render_template("myprofile.html", isAdmin=isAdmin, active_page = "myprofile", username=session["username"], age=result[0][1], email=result[0][0], country = result[0][2], mbti = result[0][3], description = result[0][4], isLogin=isLogin)
+
+        username = session["username"]
+        loginCounts = []
+        loginPeriod = []
+        connector2 = sqlite3.connect("hw.db")
+        cursor2 = connector2.cursor()
+        for i in range(7):
+            command2 = "SELECT COUNT(*) FROM loginCounts WHERE username = ? and logindate = ?"
+            d = datetime.now().date() - timedelta(days=i)
+            d = d.strftime("%Y-%m-%d")
+            cursor2.execute(command2, (username, d,))
+            loginCounts.append(cursor2.fetchall())
+            loginPeriod.append(d)
+        counts = [count[0] for count in loginCounts]
+        counts = [count[0] for count in counts]
+        print(loginPeriod)
+        connector2.close()
+
+        return render_template("myprofile.html", loginCount = counts[::-1], loginPeriod = loginPeriod[::-1], active_page = "myprofile", username=session["username"], age=result[0][1], email=result[0][0], country = result[0][2], mbti = result[0][3], description = result[0][4], sentiment = result[0][5], isLogin=isLogin)
+    if "username" in session:
+        return render_template("myprofile.html")
     else:
         return render_template("login.html")
 
