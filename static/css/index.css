@@ -12,7 +12,7 @@ align-items: center;
 }
 
 .title{
-font-family: "Merriweather", serif;
+font-family: "Raleway", sans-serif ;
 font-weight: 900px;
 font-size: 45px;
 font-style: normal;
@@ -31,7 +31,7 @@ flex-direction: column;
 }
 
 .label{
-font-family: "Merriweather", serif;
+font-family: "Raleway", sans-serif ;
 font-size: 17px;
 font-style: normal;
 color: black;
@@ -48,7 +48,7 @@ gap: 10px;
     text-decoration: none;
     background-color: #6f42c1;
     width: 100%;
-    font-family: "Merriweather", serif;
+    font-family: "Raleway", sans-serif ;
     font-weight: bold;
     border-radius: 0px;
     color: white;
@@ -73,7 +73,7 @@ gap: 10px;
     font-size: 17px;
 }
 .merriweather-bold {
-    font-family: "Merriweather", serif;
+    font-family: "Raleway", sans-serif ;
     font-weight: 900;
     font-style: normal;
 }

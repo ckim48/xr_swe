@@ -1081,11 +1081,15 @@ body{
     margin: 0 auto;
     background-color: #ffffff;
 }
+.myprofileh2{
+    margin-left:-15px !important;
+}
 
 .container .btn-primary {
     background-color: #6f42c1;
     width: 100%;
-    font-family: "Merriweather", serif;
+    border: none;
+    font-family: "Raleway", sans-serif ;
     font-weight: 900;
     font-style: normal;
     border-radius: 0px;
@@ -1097,7 +1101,7 @@ body{
     color: red;
 }
 .merriweather-bold {
-    font-family: "Merriweather", serif;
+    font-family: "Raleway", sans-serif ;
     font-weight: 900;
     font-style: normal;
 }
@@ -1115,12 +1119,19 @@ color:white !important;
 .color-black{
 color:black !important;
 }
+
+    .user-chart canvas {
+        width: 100%;
+    }
 .user-chart{
 background-color: rgba(243, 243, 243, 0.1);
     border: 1.5px solid white;
     border-radius: 9px;
+    height: 450px;
     padding: 22px 22px;
+    margin-left: 65px;
 }
+
 .center {
     display: flex;
     flex-direction: column;
@@ -1155,7 +1166,7 @@ tbody tr:nth-child(even) {
 }
 .chart-card{
     width: 80%;
-    height: 400px;
+    height: 450px;
     background-color: rgba(243, 243, 243, 0.1);
     border: 1.5px solid white;
     transition: transform 0.3s ease;

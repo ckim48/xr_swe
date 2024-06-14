@@ -6,32 +6,32 @@
 
     <div class = "container">
         <div class = "card mt-6 shadow-lg border-0">
-            <div class = "card-header bg-primary text-white">
-                <h2>My Profile</h2>
+            <div class = "card-header bg-primary text-white myprofilecard">
+                <h2 class="myprofileh2">My Profile</h2>
             </div>
-            <div class = "card-body">
-                <div class = "row mt-3">
-                    <div class = "col-12 col-md-4">
-                        <label class="merriweather" style="font-size: 18px;"><strong>Username: </strong></label>
-                        <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{username}}</p>
-                    </div>
-                    <div class = "col-12 col-md-4">
-                        <label class="merriweather" style="font-size: 18px;"><strong>Age: </strong></label>
-                        <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{age}}</p>
-                    </div>
-                    <div class = "col-12 col-md-4">
-                        <label class="merriweather" style="font-size: 18px;"><strong>Email: </strong></label>
-                        <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{email}}</p>
-                    </div>
+          <div class="card-body" style="padding-left: 41px;"> <!-- Adjust padding value as needed -->
+            <div class="row mt-3">
+                <div class="col-12 col-md-4">
+                    <label class="merriweather" style="font-size: 18px;"><strong>Username: </strong></label>
+                    <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{username}}</p>
                 </div>
-                <div class = "row mt-3">
-                    <div class = "col-12 col-md-4">
-                        <label class="merriweather" style="font-size: 18px;"><strong>Country: </strong></label>
-                        <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{country}}</p>
-                    </div>
-                    <div class = "col-12 col-md-4">
-                        <label class="merriweather" style="font-size: 18px;"><strong>MBTI: </strong></label>
-                        <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{MBTI}}</p>
+                <div class="col-12 col-md-4">
+                    <label class="merriweather" style="font-size: 18px;"><strong>Age: </strong></label>
+                    <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{age}}</p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label class="merriweather" style="font-size: 18px;"><strong>Email: </strong></label>
+                    <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{email}}</p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 col-md-4">
+                    <label class="merriweather" style="font-size: 18px;"><strong>Country: </strong></label>
+                    <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{country}}</p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label class="merriweather" style="font-size: 18px;"><strong>MBTI: </strong></label>
+                    <p class="user-info input-blk mt-3" style="width: 80%; background-color: white;">{{MBTI}}</p>
                 </div>
                 <div class="row mt-3">
                     <div>
@@ -40,19 +40,20 @@
                     </div>
                 </div>
             </div>
+        </div>
 
         </div>
     </div>
 
-    <div class="row graphmargin">
-        <div class="col-md-8 mx-auto">
-            <div class="user-chart ">
+    <div class="row graphmargin mb-5">
+        <div class="col-md-8">
+            <div class="user-chart px-5 py-5">
                 <h4>Users' Activities</h4>
-                <canvas class="mt-5" id="userLoginGraph"></canvas>
+                <canvas class="" id="userLoginGraph"></canvas>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card mt-5 px-4 py-3 mx-auto chart-card">
+            <div class="card px-4 py-3 mx-auto chart-card">
                 <div class="card-body">
                     <h2 class="card-title text-center color-white mt-6">Your Overall Sentiment</h2>
                     {% if sentiment <= -0.5 %}
